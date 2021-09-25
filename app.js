@@ -6,7 +6,6 @@ const Customer=require("./models/Customer");
 const Products=require("./models/Products")
 const Owner=require("./models/Owner");
 const Orders = require("./models/Orders");
-const { find, findById } = require("./models/Customer");
 const { request } = require("express");
 //express app
 const app=express();
@@ -31,7 +30,6 @@ app.use(express.json());
 //task A
 //adding owner to db
 app.post("/addOwner",async(req,res)=>{
-    console.log(req.body);
     try {
         const newOwner={
             ownerName:req.body.name,
@@ -40,7 +38,7 @@ app.post("/addOwner",async(req,res)=>{
         }
         const owner=await new Owner(newOwner)
         owner.save()
-        res.send("succesfuly added owner");
+        res.send(owner._id);
     } catch (error) {
         console.log(error);
         res.send("error")
@@ -79,7 +77,20 @@ app.post("/addCus",async(req,res)=>{
          customer:req.body.name,
          password:req.body.password,
          email:req.body.email,
-         address:req.body.address
+         address:{
+             location:req.body.location,
+             city: req.body.city,
+            state:req.body.state,
+            phno:req.body.phno,
+            picode:req.body.pincode
+         },
+         shippingAdress:{
+            location:req.body.ShippingLocation,
+            city: req.body.ShippingCity,
+            state:req.body.ShippingState,
+            phno:req.body.ShippingPhno,
+            picode:req.body.ShippingPincode
+         }
         }
          
          const customer =await new Customer(newCus);
@@ -132,7 +143,7 @@ app.post("/addOrder",async(req,res)=>{
         }
         const order=await new Orders(newOrder)
         order.save()
-        res.send("succesfuly ordered product")
+        res.send(order._id)
       })
       .catch(err=>console.log(err))
     } catch (error) {

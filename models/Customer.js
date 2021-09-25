@@ -14,10 +14,8 @@ const customerSchema=new Schema({
         type:String,
         required:true
     },
-    address:{
-        type:String,
-        required:true
-    }
+    address:Object,
+    shippingAdress:Object
 },{timestamp:true});
 
 const Customer=mongoose.model("Customer",customerSchema);
